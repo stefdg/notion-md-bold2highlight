@@ -1,0 +1,32 @@
+import os
+
+# Folder where .md files are located
+input_folder = 'toprocess'
+
+# Function to process each .md file and replace ** with ==
+def process_md_files():
+    for filename in os.listdir(input_folder):
+        if filename.endswith(".md"):
+            file_path = os.path.join(input_folder, filename)
+            try:
+                # Read the contents of the .md file
+                with open(file_path, 'r', encoding='utf-8') as file:
+                    content = file.read()
+            except UnicodeDecodeError as e:
+                print(f"Error reading {filename}: {e}")
+                continue  # Skip this file if there's an issue reading it
+
+            # Replace all instances of ** with ==
+            updated_content = content.replace("**", "==")
+
+            # Save the updated content back to the same file
+            try:
+                with open(file_path, 'w', encoding='utf-8') as file:
+                    file.write(updated_content)
+
+                print(f"Processed {filename}")
+            except UnicodeEncodeError as e:
+                print(f"Error writing {filename}: {e}")
+
+if __name__ == "__main__":
+    process_md_files()
